@@ -2,7 +2,7 @@
 import { useEffect } from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { setModulesCommon, setModulesQuanity, setCurrentModuleSelected, setModulesSelected } from './../../../actions/index';
+import { setModulesCommon, setModulesQuanity, setCurrentModuleSelected, setModulesSelectedUp, setModulesSelectedDown } from './../../../actions/index';
 
 import pImg01 from './../img01.svg';
 import pImg02 from './../img02.svg';
@@ -12,7 +12,7 @@ import pImg02Active from './../img02-active.svg';
 import { addSvg } from './../../../resources/img/configurationLayout';
 
 const ListModulesCommon = () => {
-  const { modulesCommon, modulesSelected, currentModuleSelected, filterType, filterFeaturesWidth, filterFeaturesAppointment } = useSelector(state => state);
+  const { modulesCommon, modulesSelectedUp, modulesSelectedDown, currentModuleSelected, filterType, filterFeaturesWidth, filterFeaturesAppointment } = useSelector(state => state);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -64,52 +64,46 @@ const ListModulesCommon = () => {
     ]))
   }, [])
 
-  const onAddModuleSeclected = (item) => {
-    console.log(currentModuleSelected);
-    console.log(currentModuleSelected?.modeles?.up1?.id);
-    console.log(!currentModuleSelected?.modeles?.up1?.id);
-    if (item.type === 'down') {
-      if (!currentModuleSelected?.modeles?.down?.id) {
-        let down = {
-          id: item.id,
-          img: item.img,
-          iactiveImg: item.activeImg
-        }
-        dispatch(setCurrentModuleSelected(
-          {...currentModuleSelected, 
-            modeles: {...currentModuleSelected.modeles, down},
-          }
-        ))
-        dispatch(setModulesSelected(
-          [...modulesSelected.map((el) => {
-            if (el.id === currentModuleSelected.id)
-              return {...currentModuleSelected, 
-                       modeles: {...currentModuleSelected.modeles, down}
-                      }
-            else {
-              return el
-            }
-          })
-          ]
-        ))
+  const onAddModuleUpSeclected = (item) => {
+    if (!currentModuleSelected?.modeles?.up3?.id) {
+      let up3 = {
+        id: item.id,
+        img: item.img,
+        iactiveImg: item.activeImg
       }
+      dispatch(setCurrentModuleSelected(
+        {...currentModuleSelected, 
+          modeles: {...currentModuleSelected.modeles, up3},
+        }
+      ))
+      dispatch(setModulesSelectedUp(
+        [...modulesSelectedUp.map((el) => {
+          if (el.id === currentModuleSelected.id)
+            return {...currentModuleSelected, 
+                      modeles: {...currentModuleSelected.modeles, up3}
+                    }
+          else {
+            return el
+          }
+        })
+        ]
+      ))
     }
     else {
-      console.log(1);
       let up = {
         id: item.id,
         img: item.img,
         iactiveImg: item.activeImg
       }
-      console.log(2);
-      if (!currentModuleSelected?.modeles?.up1?.id) {
+
+      if (!currentModuleSelected?.modeles?.up1?.id && currentModuleSelected?.modeles?.up1 !== false) {
         dispatch(setCurrentModuleSelected(
           {...currentModuleSelected, 
             modeles: {...currentModuleSelected.modeles, up1: up},
           }
         ))
-        dispatch(setModulesSelected(
-          [...modulesSelected.map((el) => {
+        dispatch(setModulesSelectedUp(
+          [...modulesSelectedUp.map((el) => {
             if (el.id === currentModuleSelected.id)
               return {...currentModuleSelected, 
                         modeles: {...currentModuleSelected.modeles, up1: up}
@@ -120,15 +114,15 @@ const ListModulesCommon = () => {
           })
           ]
         ))
-      } else if (!currentModuleSelected?.modeles?.up2?.id) {
-        console.log(3);
+
+      } else if (!currentModuleSelected?.modeles?.up2?.id && currentModuleSelected?.modeles?.up2 !== false) {
         dispatch(setCurrentModuleSelected(
           {...currentModuleSelected, 
             modeles: {...currentModuleSelected.modeles, up2: up},
           }
         ))
-        dispatch(setModulesSelected(
-          [...modulesSelected.map((el) => {
+        dispatch(setModulesSelectedUp(
+          [...modulesSelectedUp.map((el) => {
             if (el.id === currentModuleSelected.id)
               return {...currentModuleSelected, 
                         modeles: {...currentModuleSelected.modeles, up2: up}
@@ -140,6 +134,35 @@ const ListModulesCommon = () => {
           ]
         ))
       }
+
+    }
+  }
+
+  const onAddModuleDownSeclected = (item) => {
+    console.log(1);
+    if (!currentModuleSelected?.modeles?.down?.id) {
+      let down = {
+        id: item.id,
+        img: item.img,
+        iactiveImg: item.activeImg
+      }
+      dispatch(setCurrentModuleSelected(
+        {...currentModuleSelected, 
+          modeles: {...currentModuleSelected.modeles, down},
+        }
+      ))
+      dispatch(setModulesSelectedDown(
+        [...modulesSelectedDown.map((el) => {
+          if (el.id === currentModuleSelected.id)
+            return {...currentModuleSelected, 
+                      modeles: {...currentModuleSelected.modeles, down}
+                    }
+          else {
+            return el
+          }
+        })
+        ]
+      ))
     }
   }
   
@@ -180,7 +203,7 @@ const ListModulesCommon = () => {
             <div className="configuration-filter-products__text">{item.text}</div>
           </div>
           <div 
-            onClick={() => onAddModuleSeclected(item)}
+            onClick={() => item.type === 'up' ? onAddModuleUpSeclected(item):onAddModuleDownSeclected(item)}
             className="configuration-filter-products__add"
             ><img src={addSvg} alt="add" /></div>
         </div>

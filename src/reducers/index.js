@@ -11,7 +11,8 @@ const initialState = {
   sizeError: false,
 
   modulesCommon: [],
-  modulesSelected: [],
+  modulesSelectedUp: [],
+  modulesSelectedDown: [],
   currentModuleSelected: false,
   modulesQuanity: 0,
 
@@ -79,10 +80,15 @@ const reducer = (state = initialState, action) => {
           ...state,
           modulesCommon: payload,
         }
-      case 'SET_MODULES_SELECTED':
+      case 'SET_MODULES_SELECTED_UP':
         return {
           ...state,
-          modulesSelected: payload,
+          modulesSelectedUp: payload,
+        }
+      case 'SET_MODULES_SELECTED_DOWN':
+        return {
+          ...state,
+          modulesSelectedDown: payload,
         }
       case 'SET_CURRENT_MODULE_SELECTED':
         return {

@@ -141,7 +141,7 @@ const ConfigurationLayout = ({setPage}) => {
 
               <SizePlan />
 
-              <div className="configuration-layout-plan__template configuration-layout-plan-template">
+              {/* <div className="configuration-layout-plan__template configuration-layout-plan-template"> */}
                 {/* <div className={`configuration-layout-plan-template__wrapper config-1 active ${uidActiveProduct?'selected':''}`}>
                   <div className="configuration-layout-plan-template__wrapper-1">
                     {template}
@@ -175,7 +175,7 @@ const ConfigurationLayout = ({setPage}) => {
                   </div>
                   <div className="configuration-layout-plan-template__wrapper-2"></div>
                 </div> */}
-              </div>
+              {/* </div> */}
               {/* <div className="configuration-layout-plan__selected configuration-layout-plan-selected">
                 {selected}
               </div> */}

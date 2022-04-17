@@ -53,9 +53,15 @@ export const setModulesCommon = (arr) => {
     payload: arr
   }
 }
-export const setModulesSelected = (arr) => {
+export const setModulesSelectedUp = (arr) => {
   return {
-    type: 'SET_MODULES_SELECTED',
+    type: 'SET_MODULES_SELECTED_UP',
+    payload: arr
+  }
+}
+export const setModulesSelectedDown = (arr) => {
+  return {
+    type: 'SET_MODULES_SELECTED_DOWN',
     payload: arr
   }
 }

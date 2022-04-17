@@ -1,17 +1,17 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { setModulesSelected, setCurrentModuleSelected } from './../../../actions/index';
+import { setModulesSelectedUp, setModulesSelectedDown, setCurrentModuleSelected } from './../../../actions/index';
 
 import { img01, img02, img06, img07, img08} from './../../../resources/img/configurationLayout';
 
 const ButtonMode = () => {
-  const { depth, modulesSelected, currentModuleSelected } = useSelector(state => state);
+  const { depth, modulesSelectedUp, currentModuleSelected } = useSelector(state => state);
   const dispatch = useDispatch();
 
   const onSetDepth = (depth) => {
-    if (currentModuleSelected?.id) {
+    if (currentModuleSelected?.id && currentModuleSelected?.type !== 'down') {
       dispatch(setCurrentModuleSelected({...currentModuleSelected, depth}))
-      dispatch(setModulesSelected(
-        [...modulesSelected.map((item) => {
+      dispatch(setModulesSelectedUp(
+        [...modulesSelectedUp.map((item) => {
           if (item.id === currentModuleSelected?.id) {
             return {...item, depth}
           }
@@ -22,7 +22,7 @@ const ButtonMode = () => {
   } 
   
   const onSetMounted = (mounted) => {
-    if (currentModuleSelected?.id && mounted !== currentModuleSelected?.mounted) {
+    if (currentModuleSelected?.id && mounted !== currentModuleSelected?.mounted && currentModuleSelected?.type !== 'down') {
       let obj = {};
       if (mounted === 'x2') {
         let up1 = currentModuleSelected.modeles.up1 ? currentModuleSelected.modeles.up1 : {};
@@ -35,8 +35,8 @@ const ButtonMode = () => {
       else      
         obj = {...currentModuleSelected.modeles, up1: false, up2: false}
       dispatch(setCurrentModuleSelected({...currentModuleSelected, mounted, modeles: obj}))
-      dispatch(setModulesSelected(
-        [...modulesSelected.map((item) => {
+      dispatch(setModulesSelectedUp(
+        [...modulesSelectedUp.map((item) => {
           if (item.id === currentModuleSelected?.id) {
             return {...item, mounted, modeles: obj}
           }
